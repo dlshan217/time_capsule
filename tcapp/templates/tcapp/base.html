@@ -1,0 +1,119 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}Time Capsule{% endblock %}</title>
+<style>
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: #f9fafb;
+    margin: 0;
+    padding: 20px;
+    color: #111827;
+    line-height: 1.6;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .card {
+    padding: 16px 0;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 6px;
+    background: #2563eb;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s ease;
+  }
+  .btn:hover {
+    background: #1e40af;
+  }
+</style>
+
+
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div class="container">
+    <header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h2><a href="/" style="text-decoration:none;color:inherit">Time Capsule</a></h2>
+       <div class="suggestion-rotator">
+      <span id="rotatingText"></span>
+    </div>
+      
+      <a class="btn" href="{% url 'memory_create' %}">New capsule</a>
+    </header>
+
+    {% if messages %}
+      <div class="card">
+        {% for message in messages %}
+          <div>{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>
+
+
+<style>
+    .suggestion-rotator {
+      margin: 20px 0;
+      font-family: "Poppins", sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: #3c204cff;
+      text-align: center;
+      min-height: 28px;
+    }
+    #rotatingText {
+      display: inline-block;
+      opacity: 0;
+      filter: blur(6px);
+      transition: opacity 1s ease, filter 1s ease;
+    }
+    #rotatingText.show {
+      opacity: 1;
+      filter: blur(0);
+    }
+  </style>
+
+  <script>
+    const texts = [
+      "Write a message to your future self.",
+      "Add a photo of your favorite place today.",
+      "Record your current favorite song.",
+      "Write 3 goals you want to achieve in 5 years.",
+      "Describe your best memory from this week."
+    ];
+
+    let index = 0;
+    const textElement = document.getElementById("rotatingText");
+
+    function showNextText() {
+      textElement.classList.remove("show"); // fade out
+      setTimeout(() => {
+        textElement.innerText = texts[index];
+        textElement.classList.add("show");  // fade in
+        index = (index + 1) % texts.length; // loop
+      }, 1000); // match fade out duration
+    }
+
+    // Start loop
+    showNextText();
+    setInterval(showNextText, 5000); // 5 sec delay
+
+  </script>

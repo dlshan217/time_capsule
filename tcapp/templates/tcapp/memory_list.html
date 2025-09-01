@@ -1,0 +1,39 @@
+{% extends 'tcapp/base.html' %}
+{% load tz %}
+
+{% block title %}Memories — Time Capsule{% endblock %}
+{% block content %}
+  <div class="card">
+    <h3>Your Memories</h3>
+
+  
+
+    <ul style="list-style:none;padding-left:0">
+      {% for m in memories %}
+        <li style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #eee">
+          
+          <strong>
+            {% if m.title %}
+              {{ m.title }}
+            {% else %}
+              Memory {{ m.pk }}
+            {% endif %}
+          </strong>
+
+          <br>
+          <small>Unlocks at: {{ m.unlock_at|localtime|date:"Y-m-d H:i" }}</small><br><br>
+
+          {% if m.is_unlocked %}
+            <a class="btn" href="{% url 'memory_detail' m.pk %}"> Open</a>
+          {% else %}
+            <span style="opacity:.7;padding:6px;border-radius:6px;display:inline-block"> Locked</span>
+          {% endif %}
+        </li>
+      {% empty %}
+        <li>No memories yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  
+{% endblock %}

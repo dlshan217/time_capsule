@@ -1,0 +1,26 @@
+{% extends 'tcapp/base.html' %}
+{% block title %}New Memory — Time Capsule{% endblock %}
+{% block content %}
+  <div class="card">
+    <h3>Create a Memory</h3>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn" type="submit">Save Memory</button>
+    </form>
+  </div>
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+
+    if (document.getElementById('unlock_at')) {
+      flatpickr('#unlock_at', {
+        enableTime: true,
+        dateFormat: "Y-m-d\\TH:i",
+        minDate: "today"
+      });
+    }
+  </script>
+{% endblock %}
