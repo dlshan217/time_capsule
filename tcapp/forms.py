@@ -3,6 +3,15 @@ from django.utils import timezone
 from .models import Memory
 
 class MemoryForm(forms.ModelForm):
+    secret_key = forms.CharField(
+        label="Secret key",
+        min_length=10,
+        max_length=128,
+        strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+        help_text="Use at least 10 characters. You’ll need this to open the capsule.",
+    )
+
     class Meta:
         model = Memory
         fields = ['title', 'text', 'file', 'unlock_at']

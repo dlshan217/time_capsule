@@ -1,39 +1,53 @@
 {% extends 'tcapp/base.html' %}
 {% load tz %}
 
-{% block title %}Memories — Time Capsule{% endblock %}
+{% block title %}Memories -Time Capsule{% endblock %}
 {% block content %}
-  <div class="card">
-    <h3>Your Memories</h3>
+  <section class="intro">
+    <h1>Your little time machine</h1>
+    <p>Save a moment now. Future you can open it when the time is right.</p>
+  </section>
 
-  
+  <section class="card">
+    <div class="card-header">
+      <h2>Your capsules</h2>
+    </div>
 
-    <ul style="list-style:none;padding-left:0">
+    <ul class="memory-list">
       {% for m in memories %}
-        <li style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #eee">
-          
-          <strong>
-            {% if m.title %}
-              {{ m.title }}
+        <li class="memory-row">
+          <div class="memory-info">
+            <strong class="memory-title">
+              {% if m.has_session_access and m.title %}
+                {{ m.title }}
+              {% elif not m.has_session_access %}
+                Sealed capsule
+              {% else %}
+                Memory {{ m.pk }}
+              {% endif %}
+            </strong>
+            <span class="memory-meta">
+              {% if m.is_unlocked %}
+                Ready to open
+              {% else %}
+                Opens {{ m.unlock_at|localtime|date:"M j, Y · H:i" }}
+              {% endif %}
+            </span>
+          </div>
+
+          <div class="memory-actions">
+            {% if m.is_unlocked %}
+              <a class="btn btn-soft" href="{% url 'memory_detail' m.pk %}">Open</a>
             {% else %}
-              Memory {{ m.pk }}
+              <span class="muted" aria-label="Locked">Waiting</span>
             {% endif %}
-          </strong>
-
-          <br>
-          <small>Unlocks at: {{ m.unlock_at|localtime|date:"Y-m-d H:i" }}</small><br><br>
-
-          {% if m.is_unlocked %}
-            <a class="btn" href="{% url 'memory_detail' m.pk %}"> Open</a>
-          {% else %}
-            <span style="opacity:.7;padding:6px;border-radius:6px;display:inline-block"> Locked</span>
-          {% endif %}
+          </div>
         </li>
       {% empty %}
-        <li>No memories yet.</li>
+        <li class="empty">
+          <span class="empty-message">No capsules yet. Future you is waiting for a message.</span>
+        </li>
       {% endfor %}
     </ul>
-  </div>
-
-  
+  </section>
 {% endblock %}

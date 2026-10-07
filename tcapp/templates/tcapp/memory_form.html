@@ -1,17 +1,21 @@
 {% extends 'tcapp/base.html' %}
-{% block title %}New Memory — Time Capsule{% endblock %}
+{% block title %}New Memory -Time Capsule{% endblock %}
 {% block content %}
-  <div class="card">
-    <h3>Create a Memory</h3>
+  <section class="card">
+    <p class="muted">A little gift for future you </p>
+    <h1>Create a capsule</h1>
+    <p>Choose a secret key you’ll remember. We store a protected hash, so the key can’t be recovered if you forget it.</p>
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
       <button class="btn" type="submit">Save Memory</button>
     </form>
-  </div>
-
-
+  </section>
+{% endblock %}
+{% block head %}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+{% endblock %}
+{% block scripts %}
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
 
