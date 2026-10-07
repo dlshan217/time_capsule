@@ -5,6 +5,8 @@ class Memory(models.Model):
     title = models.CharField(max_length=200, blank=True)
     text = models.TextField(blank=True, null=True)
     file = models.FileField(upload_to='memories/', blank=True, null=True)
+    # Store only a Django password hash; never retain the secret phrase itself.
+    secret_key_hash = models.CharField(max_length=128, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     unlock_at = models.DateTimeField()
 

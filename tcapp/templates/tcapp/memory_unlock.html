@@ -1,0 +1,20 @@
+{% extends 'tcapp/base.html' %}
+{% block title %}Open capsule - Time Capsule{% endblock %}
+{% block content %}
+<section class="card">
+  <p class="muted">One tiny security checkpoint </p>
+  <h1>{% if legacy_key_required %}This capsule needs a key{% else %}This capsule is ready{% endif %}</h1>
+  {% if legacy_key_required %}
+    <p>This capsule was created before secret keys were added. To keep it private, an administrator needs to set its key in the admin area first.</p>
+  {% else %}
+    <p>Enter the secret key you chose when you made this capsule.</p>
+  {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+  <form method="post">
+    {% csrf_token %}
+    <label for="secret_key">Secret key</label>
+    <input id="secret_key" name="secret_key" type="password" required minlength="10" maxlength="128" autocomplete="current-password">
+    <button class="btn" type="submit">Unlock memory</button>
+  </form>
+  {% endif %}
+</section>
+{% endblock %}

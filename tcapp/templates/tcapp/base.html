@@ -1,119 +1,231 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Time Capsule{% endblock %}</title>
-<style>
-  body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    background: #f9fafb;
-    margin: 0;
-    padding: 20px;
-    color: #111827;
-    line-height: 1.6;
-  }
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #332b45;
+      --muted: #766d84;
+      --plum: #7049a5;
+      --paper: #fffdf9;
+      --panel: #ffffff;
+      --line: #eee7f0;
+      --soft: #f0e8fa;
+    }
 
-  .container {
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-  }
+    * { box-sizing: border-box; }
 
-  .card {
-    padding: 16px 0;
-    border-bottom: 1px solid #e5e7eb;
-  }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px;
+      color: var(--ink);
+      background: radial-gradient(ellipse at 8% 4%, #f5dfec 0, transparent 32%), radial-gradient(ellipse at 95% 95%, #e4e3fb 0, transparent 36%), #f8f5fb;
+      font: 16px/1.6 ui-rounded, "Segoe UI", system-ui, sans-serif;
+    }
 
-  .btn {
-    display: inline-block;
-    padding: 10px 18px;
-    border-radius: 6px;
-    background: #2563eb;
-    color: #fff;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background 0.2s ease;
-  }
-  .btn:hover {
-    background: #1e40af;
-  }
-</style>
+    .container {
+      width: min(780px, 100%);
+      margin: 0 auto;
+    }
 
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 4px 0 32px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
 
+    .brand {
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-left: auto;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { letter-spacing: -0.035em; line-height: 1.2; }
+
+    .intro { margin-bottom: 24px; }
+    .intro h1 { margin-bottom: 8px; font-size: clamp(1.8rem, 5vw, 2.55rem); }
+    .intro p, .muted, small { color: var(--muted); }
+
+    .card {
+      margin: 16px 0;
+      padding: 24px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      box-shadow: 0 12px 35px rgba(70, 48, 94, 0.04);
+    }
+
+    .memory-list {
+      display: grid;
+      gap: 12px;
+      padding: 0;
+      margin: 20px 0 0;
+      list-style: none;
+    }
+
+    .memory-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 17px 18px;
+      border: 1px solid #f0e9f1;
+      background: var(--panel);
+    }
+
+    .memory-row strong { display: block; font-size: 1.05rem; }
+    .memory-meta {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 9px 16px;
+      border: 0;
+      background: var(--plum);
+      color: white;
+      text-decoration: none;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      background: #583784;
+    }
+
+    .btn-soft {
+      color: var(--plum);
+      background: var(--soft);
+    }
+
+    .btn-soft:hover { color: white; }
+
+    label {
+      display: block;
+      margin: 16px 0 6px;
+      font-weight: 700;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      max-width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #ded5e5;
+      color: var(--ink);
+      background: white;
+      font: inherit;
+    }
+
+    input[type=file] { padding: 9px; }
+    textarea { min-height: 130px; }
+    input:focus, textarea:focus, select:focus {
+      outline: 3px solid rgba(112, 73, 165, 0.14);
+      border-color: var(--plum);
+    }
+
+    form p { margin-bottom: 14px; }
+    form p label { margin-top: 0; }
+
+    .notice {
+      padding: 12px 16px;
+      background: var(--soft);
+      color: var(--ink);
+    }
+
+    .error { color: #a52f55; }
+
+    .empty {
+      padding: 30px 18px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .rotator {
+      min-height: 24px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: right;
+    }
+
+    @media (max-width: 560px) {
+      body { padding: 16px; }
+      header {
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+      }
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .brand { width: 100%; }
+      .rotator { text-align: left; }
+      .card { padding: 19px; }
+      .memory-row { align-items: flex-start; }
+    }
+  </style>
   {% block head %}{% endblock %}
 </head>
 <body>
-  <div class="container">
-    <header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <h2><a href="/" style="text-decoration:none;color:inherit">Time Capsule</a></h2>
-       <div class="suggestion-rotator">
-      <span id="rotatingText"></span>
-    </div>
-      
-      <a class="btn" href="{% url 'memory_create' %}">New capsule</a>
+  <main class="container">
+    <header>
+      <a class="brand" href="{% url 'memory_list' %}">time capsule</a>
+      <div class="header-actions">
+        <p class="rotator" id="rotatingText" aria-live="polite">A tiny note for future you</p>
+        <a class="btn" href="{% url 'memory_create' %}">New capsule</a>
+      </div>
     </header>
 
     {% if messages %}
-      <div class="card">
-        {% for message in messages %}
-          <div>{{ message }}</div>
-        {% endfor %}
-      </div>
+      {% for message in messages %}<p class="notice">{{ message }}</p>{% endfor %}
     {% endif %}
-
     {% block content %}{% endblock %}
-  </div>
-</body>
-</html>
-
-
-<style>
-    .suggestion-rotator {
-      margin: 20px 0;
-      font-family: "Poppins", sans-serif;
-      font-size: 18px;
-      font-weight: 500;
-      color: #3c204cff;
-      text-align: center;
-      min-height: 28px;
-    }
-    #rotatingText {
-      display: inline-block;
-      opacity: 0;
-      filter: blur(6px);
-      transition: opacity 1s ease, filter 1s ease;
-    }
-    #rotatingText.show {
-      opacity: 1;
-      filter: blur(0);
-    }
-  </style>
+  </main>
 
   <script>
-    const texts = [
-      "Write a message to your future self.",
-      "Add a photo of your favorite place today.",
-      "Record your current favorite song.",
-      "Write 3 goals you want to achieve in 5 years.",
-      "Describe your best memory from this week."
+    const ideas = [
+      "Write a note to future you",
+      "Save today’s tiny win",
+      "What song is on repeat?",
+      "Bottle up this good day"
     ];
 
-    let index = 0;
-    const textElement = document.getElementById("rotatingText");
-
-    function showNextText() {
-      textElement.classList.remove("show"); // fade out
-      setTimeout(() => {
-        textElement.innerText = texts[index];
-        textElement.classList.add("show");  // fade in
-        index = (index + 1) % texts.length; // loop
-      }, 1000); // match fade out duration
+    const idea = document.getElementById("rotatingText");
+    if (idea) {
+      let i = 0;
+      setInterval(() => {
+        i = (i + 1) % ideas.length;
+        idea.textContent = ideas[i];
+      }, 5000);
     }
-
-    // Start loop
-    showNextText();
-    setInterval(showNextText, 5000); // 5 sec delay
-
   </script>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

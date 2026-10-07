@@ -1,18 +1,19 @@
 {% extends 'tcapp/base.html' %}
 {% load tz %}
 
-{% block title %}{{ memory.title|default:'Memory' }} — Time Capsule{% endblock %}
+{% block title %}{{ memory.title|default:'Memory' }}  Time Capsule{% endblock %}
 {% block content %}
-  <div class="card">
-    <h3>{{ memory.title|default:'Untitled' }}</h3>
-    <p><em>Unlocked at: {{ memory.unlock_at|localtime|date:"Y-m-d H:i" }}</em></p>
+  <article class="card">
+    <p class="muted">The wait is over </p>
+    <h1>{{ memory.title|default:'Untitled' }}</h1>
+    <p class="muted">Unlocked {{ memory.unlock_at|localtime|date:"M j, Y · H:i" }}</p>
 
     {% if memory.text %}
       <div>{{ memory.text|linebreaks }}</div>
     {% endif %}
 
     {% if memory.file %}
-      <p><a class="btn" href="{{ memory.file.url }}" download>Download attachment</a></p>
+      <p><a class="btn" href="{% url 'memory_file' memory.pk %}">Download attachment</a></p>
     {% endif %}
-  </div>
+  </article>
 {% endblock %}
